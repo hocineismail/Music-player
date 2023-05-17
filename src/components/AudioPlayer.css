@@ -1,0 +1,16 @@
+.audio-player {
+  /* Add your custom styles for the audio player */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+  margin-bottom: 16px;
+}
+
+.remove-button {
+  /* Add your custom styles for the remove button */
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: #888;
+}
