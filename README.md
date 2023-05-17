@@ -1,5 +1,5 @@
  
-# 🔨 Recorder and Music Player 
+# 🔨 Recorder and Music Player [#Demo](https://recorder-music-player.netlify.app)
  ![alt text](https://raw.githubusercontent.com/hocineismail/Music-player/main/public/gallary.png)
 ## 📜 Description
 
@@ -13,10 +13,10 @@ The Recorder and Music Player project is a dynamic application that combines the
 
 ## 🌐 Links
 
-* [Deployed] Not Yet
+* [Deployed] [Demo](https://recorder-music-player.netlify.app)
  
 
-## 💻 Tech Requirements
+## 💻 Tech Used
 
 - [x] React 
 - [x] Typescript
