@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { GrPlayFill, GrPauseFill } from "react-icons/gr";
 import { BiSkipNext, BiSkipPrevious } from "react-icons/bi";
 import { FaRandom } from "react-icons/fa";
@@ -7,6 +7,7 @@ import {
   BsFillVolumeMuteFill,
   BsFillVolumeDownFill,
 } from "react-icons/bs";
+
 type Props = {
   playList: string[];
   getCurrentItem: (e: any) => void;
@@ -26,6 +27,41 @@ export default function Audio({
     volume: 1,
   });
   const [vol, setVol] = useState(1);
+
+  useEffect(() => {
+    const audioElement = audioRef.current;
+
+    const handleAudioEnded = () => {
+      if (audioElement) {
+        if (currentItemIndex < playList.length - 1) {
+          if (isRandom) {
+            const random = Math.floor(Math.random() * playList.length);
+            console.log(random);
+            getCurrentItem(random);
+          } else {
+            getCurrentItem(currentItemIndex + 1);
+          }
+        } else {
+          setIsPlaying(false);
+        }
+      }
+    };
+
+    if (audioElement) {
+      audioElement.addEventListener("ended", handleAudioEnded);
+    }
+
+    if (audioElement && isPlaying) {
+      audioElement.play();
+    }
+
+    return () => {
+      if (audioElement) {
+        audioElement.removeEventListener("ended", handleAudioEnded);
+      }
+    };
+  }, [currentItemIndex, getCurrentItem, isPlaying, isRandom, playList.length]);
+
   const handlePlayPause = () => {
     if (audioRef.current) {
       if (isPlaying) {
@@ -49,23 +85,6 @@ export default function Audio({
     }
   };
 
-  const handleAudioEnded = () => {
-    if (audioRef.current) {
-      if (currentItemIndex < playList.length - 1) {
-        if (isRandom) {
-          const random = Math.floor(Math.random() * playList.length);
-          console.log(random);
-          getCurrentItem(random);
-        } else {
-          getCurrentItem(currentItemIndex + 1);
-        }
-      } else {
-        // If it's the last audio, stop playing or perform desired action
-        setIsPlaying(false);
-      }
-    }
-  };
-
   const handleAudioNext = () => {
     if (currentItemIndex < playList.length - 1) {
       getCurrentItem(currentItemIndex + 1);
@@ -83,9 +102,11 @@ export default function Audio({
       }
     }
   };
+
   const handleAudioMute = () => {
     if (isMute.mute) {
       setisMute({ ...isMute, mute: false });
+
       if (audioRef.current) {
         audioRef.current.volume = isMute.volume;
       }
@@ -97,34 +118,6 @@ export default function Audio({
     }
   };
 
-  React.useEffect(() => {
-    // if (playList.length - 1 === currentItemIndex) {
-
-    if (audioRef.current) {
-      audioRef.current.addEventListener("ended", handleAudioEnded);
-    }
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.play();
-      }
-    }
-    return () => {
-      if (audioRef.current) {
-        audioRef.current.removeEventListener("ended", handleAudioEnded);
-      }
-    };
-
-    // } else {
-    //   console.log("should here");
-    //   console.log(isPlaying);
-
-    //   if (audioRef.current) {
-    //     if (isPlaying) {
-    //       audioRef.current.play();
-    //     }
-    //   }
-    // }
-  }, [currentItemIndex]);
   return (
     <div className="card-player">
       <h2 style={{ textAlign: "center" }}>Voice Number {currentItemIndex}</h2>
