@@ -1,7 +1,5 @@
-import React from "react";
 import "./App.css";
 import PlayList from "./components/playList";
-import Recorder from "./components/recorder";
 
 function App() {
   return (

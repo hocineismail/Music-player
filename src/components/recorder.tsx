@@ -1,7 +1,6 @@
 import React from "react";
 import { FiMic } from "react-icons/fi";
 
-var gumStream = null;
 let chunks: any[] = [];
 
 interface Props {
